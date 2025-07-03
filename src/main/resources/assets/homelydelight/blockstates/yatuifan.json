@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "homelydelight:block/yatuifan",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "homelydelight:block/yatuifan"
+    },
+    "facing=south": {
+      "model": "homelydelight:block/yatuifan",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "homelydelight:block/yatuifan",
+      "y": 270
+    },
+  }
+}
