@@ -63,7 +63,8 @@ public class Homely_Delight {
     public static final RegistryObject<Item> veggie_bisque = ITEMS.register("veggie_bisque", () -> new BowlFoodItem(new Item.Properties().stacksTo(16).food(new FoodProperties.Builder()
             .alwaysEat().nutrition(6).saturationMod(2f).build())));
 
-    public static class BouilliBlock extends FeastBlock {
+    //盖饭代码
+    public static class BouilliBlock extends ToppingFeastBlock {
         protected static final VoxelShape PLATE_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 2.0D, 15.0D);
         protected static final VoxelShape ROAST_SHAPE = Shapes.joinUnoptimized(PLATE_SHAPE, Block.box(4.0D, 2.0D, 4.0D, 12.0D, 9.0D, 12.0D), BooleanOp.OR);
 
@@ -76,8 +77,8 @@ public class Homely_Delight {
             return state.getValue(SERVINGS) == 0 ? PLATE_SHAPE : ROAST_SHAPE;
         }
     }
-
-    public static final RegistryObject<Block> bouilli_block = BLOCKS.register("bouilli_block", () -> new FeastBlock(Properties.copy(Blocks.CAKE), Homely_Delight.bouilli_with_rice, true));
+    //物品注册
+    public static final RegistryObject<Block> bouilli_block = BLOCKS.register("bouilli_block", () -> new BouilliBlock(Properties.copy(Blocks.CAKE), Homely_Delight.bouilli_with_rice, true));
     public static final RegistryObject<Item> bouilli_block_item = ITEMS.register("bouilli_block", () -> new BlockItem(bouilli_block.get(), new Item.Properties()));
     public static final RegistryObject<Item> bouilli_with_rice = ITEMS.register("bouilli_with_rice", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> cooking_oil = ITEMS.register("cooking_oil", () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
@@ -87,7 +88,8 @@ public class Homely_Delight {
     public static final RegistryObject<Item> veggie_crabpaste = ITEMS.register("veggie_crabpaste", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Block> soybeans_crop = BLOCKS.register("soybeans", () -> new SoyBeanBlock(Properties.copy(Blocks.WHEAT)));
     public static final RegistryObject<Item> soybeans = ITEMS.register("soybeans", () -> new ItemNameBlockItem(soybeans_crop.get(), new Item.Properties()));
-
+    public static final RegistryObject<Block> meatball_block = BLOCKS.register("meatball", () -> new BouilliBlock(Properties.copy(Blocks.CAKE), Homely_Delight.bouilli_with_rice, true));
+    public static final RegistryObject<Item> meatball_block = ITEMS.register("bouilli_block", () -> new BlockItem(bouilli_block.get(), new Item.Properties()));
     public Homely_Delight(FMLJavaModLoadingContext context) {
         IEventBus bus = context.getModEventBus();
         BLOCKS.register(bus);
