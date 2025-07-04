@@ -1,14 +1,14 @@
 package com.catoxide.homelydelight;
+import com.ibm.icu.impl.TextTrieMap;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BowlFoodItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -28,12 +28,14 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.checkerframework.checker.units.qual.C;
 import org.slf4j.Logger;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import vectorwing.farmersdelight.common.block.FeastBlock;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
 
+import java.sql.ParameterMetaData;
 import java.util.function.Supplier;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -88,22 +90,33 @@ public class Homely_Delight {
     public static final RegistryObject<Item> veggie_crabpaste = ITEMS.register("veggie_crabpaste", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Block> soybeans_crop = BLOCKS.register("soybeans", () -> new SoyBeanBlock(Properties.copy(Blocks.WHEAT)));
     public static final RegistryObject<Item> soybeans = ITEMS.register("soybeans", () -> new ItemNameBlockItem(soybeans_crop.get(), new Item.Properties()));
-    public static final RegistryObject<Block> meatball_block = BLOCKS.register("meatball", () -> new BouilliBlock(Properties.copy(Blocks.CAKE), Homely_Delight.bouilli_with_rice, true));
-    public static final RegistryObject<Item> meatball_block = ITEMS.register("bouilli_block", () -> new BlockItem(bouilli_block.get(), new Item.Properties()));
+    public static final RegistryObject<Block> meatball_block = BLOCKS.register("meatball_block", () -> new ToppingFeastBlock(Properties.copy(Blocks.CAKE), Homely_Delight.bouilli_with_rice, true));
+    public static final RegistryObject<Item> meatball_block_item = ITEMS.register("meatball_block", () -> new BlockItem(meatball_block.get(), new Item.Properties()));
     public Homely_Delight(FMLJavaModLoadingContext context) {
         IEventBus bus = context.getModEventBus();
         BLOCKS.register(bus);
         ITEMS.register(bus);
+        CREATIVE_MODE_TABS.register(bus);
     }
-
-    //@SubscribeEvent
-    //public void onLootTableLoad(LootTableLoadEvent event) {
-    //    ResourceLocation lootTableId = event.getName();
-    //    if (lootTableId.equals(new ResourceLocation("homelydelight", "blocks/soybeans"))) {
-            // 加载自定义的战利品表
-    //        LootTable customLootTable = event.getTable();
-    //    }
-    //}
+    //创造模式物品栏
+    private static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB,MODID);
+    public static final RegistryObject<CreativeModeTab> Homelydelightbar = CREATIVE_MODE_TABS.register("homelydelightbar",()->CreativeModeTab.builder()
+            .title(Component.translatable("Homely Delight"))
+            .icon(()->new ItemStack(bouilli_block_item.get()))
+            .displayItems((parameters,output)->{
+                    output.accept(bouilli_block_item.get());
+                    output.accept(bouilli_with_rice.get());
+                    output.accept(cooking_oil.get());
+                    output.accept(lard.get());
+                    output.accept(tofu.get());
+                    output.accept(veggie_crabpaste.get());
+                    output.accept(soybeans.get());
+                    output.accept(veggie_bisque.get());
+                    output.accept(meatball_block_item.get());
+                    }
+            )
+            .build()
+    );
 }
 
 
