@@ -1,60 +1,92 @@
 package com.catoxide.homelydelight;
-
 import com.mojang.logging.LogUtils;
-
-import java.util.LinkedHashSet;
-import java.util.Stack;
-import java.util.function.Supplier;
-
-import jdk.dynalink.beans.StaticClass;
-import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BowlFoodItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.server.ServerStartingEvent;
+
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import vectorwing.farmersdelight.common.block.FeastBlock;
+import vectorwing.farmersdelight.common.registry.ModItems;
+
+
+import java.util.function.Supplier;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Homely_Delight.MODID)
-public class Homely_Delight {}
-        public static final DeferredRegister<Block> BLOCKS;
-    public static LinkedHashSet<RegistryObject<Item>> CREATIVE_TAB_ITEMS;
-    public static final RegistryObject<Item>
+public class Homely_Delight {
 
     // Define mod id in a common place for everything to reference
     public static final String MODID = "homelydelight";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
+    //public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+    //public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
 
-    public static RegistryObject<Item> registerWithTab(String name, Supplier<Item> supplier) {
-        RegistryObject<Item> block = ITEMS.register(name, supplier);
-        CREATIVE_TAB_ITEMS.add(block);
-        return block;
-
-    public static final RegistryObject<Block> yatuifan = BLOCKS.register("yatuifan", () -> new Block(BlockBehaviour.Properties.of().sound(SoundType.MUD).strength(1)));
+    //public static RegistryObject<Item> registerWithTab(String name, Supplier<Item> supplier) {
+    //    RegistryObject<Item> block = BLOCKS.register(name, supplier);
+    //    RegistryObject<Item> item = ITEMS.register(name, supplier);
+    //    CREATIVE_TAB_ITEMS.add(block);
+    //    return block;
+    private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+    public static final RegistryObject<Block> yatuifan = BLOCKS.register("yatuifan", () -> new Block(Properties.of().sound(SoundType.MUD).strength(1)));
     public static final RegistryObject<Item> yatuifan_item = ITEMS.register("yatuifan", () -> new BlockItem(yatuifan.get(), new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEat().nutrition(6).saturationMod(2f).build())));
     public static final RegistryObject<Item> veggie_bisque = ITEMS.register("veggie_bisque", () -> new BowlFoodItem(new Item.Properties().stacksTo(16).food(new FoodProperties.Builder()
             .alwaysEat().nutrition(6).saturationMod(2f).build())));
 
+    public static class BouilliBlock extends FeastBlock {
+        protected static final VoxelShape PLATE_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 2.0D, 15.0D);
+        protected static final VoxelShape ROAST_SHAPE = Shapes.joinUnoptimized(PLATE_SHAPE, Block.box(4.0D, 2.0D, 4.0D, 12.0D, 9.0D, 12.0D), BooleanOp.OR);
+
+        public BouilliBlock(Properties properties, Supplier<Item> servingItem, boolean hasLeftovers) {
+            super(properties, servingItem, hasLeftovers);
+        }
+
+        @Override
+        public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+            return state.getValue(SERVINGS) == 0 ? PLATE_SHAPE : ROAST_SHAPE;
+        }
+    }
+
+    public static final RegistryObject<Block> bouilli_block = BLOCKS.register("bouilli_block", () -> new FeastBlock(Properties.copy(Blocks.CAKE), Homely_Delight.bouilli_with_rice, true));
+    public static final RegistryObject<Item> bouilli_block_item = ITEMS.register("bouilli_block", () -> new BlockItem(bouilli_block.get(), new Item.Properties()));
+    public static final RegistryObject<Item> bouilli_with_rice = ITEMS.register("bouilli_with_rice", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> cooking_oil = ITEMS.register("cooking_oil", () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
+            .nutrition(6).saturationMod(2f).build())));
+    public static final RegistryObject<Item> lard = ITEMS.register("lard", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> tofu = ITEMS.register("tofu", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> veggie_crabpaste = ITEMS.register("veggie_crabpaste", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Block> soybeans_crop = BLOCKS.register("soybeans", () -> new SoyBeanBlock(Properties.copy(Blocks.WHEAT)));
+    public static final RegistryObject<Item> soybeans = ITEMS.register("soybeans", () -> new ItemNameBlockItem(soybeans_crop.get(), new Item.Properties()));
 
     public Homely_Delight(FMLJavaModLoadingContext context) {
         IEventBus bus = context.getModEventBus();
@@ -62,6 +94,15 @@ public class Homely_Delight {}
         ITEMS.register(bus);
     }
 
+    //@SubscribeEvent
+    //public void onLootTableLoad(LootTableLoadEvent event) {
+    //    ResourceLocation lootTableId = event.getName();
+    //    if (lootTableId.equals(new ResourceLocation("homelydelight", "blocks/soybeans"))) {
+            // 加载自定义的战利品表
+    //        LootTable customLootTable = event.getTable();
+    //    }
+    //}
+}
 
 
 
@@ -129,21 +170,21 @@ public class Homely_Delight {}
     //}
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
+    //@SubscribeEvent
+    //public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
+    //    LOGGER.info("HELLO from server starting");
+    //}
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
+    //@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    //public static class ClientModEvents {
+    //    @SubscribeEvent
+    //    public static void onClientSetup(FMLClientSetupEvent event) {
             // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-        }
-    }
+    //        LOGGER.info("HELLO FROM CLIENT SETUP");
+    //        LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+    //    }
+    //}
 
-}
+//}

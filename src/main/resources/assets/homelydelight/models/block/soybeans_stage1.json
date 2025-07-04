@@ -1,0 +1,10 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"parent": "homelydelight:block/crop_cross",
+                "render_type": "minecraft:cutout",
+	"textures": {
+		"cross": "homelydelight:block/soybeans_stage1",
+		"particle": "homelydelight:block/soybeans_stage1"
+	}
+}
