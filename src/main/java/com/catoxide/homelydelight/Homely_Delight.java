@@ -89,7 +89,7 @@ public class Homely_Delight {
     //物品注册
     //普通物品
     public static final RegistryObject<Item> amylum = ITEMS.register("amylum", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> cooking_oil = ITEMS.register("cooking_oil", () -> new BottleItem(foodItem(FoodValues.cooking_oil))));
+    public static final RegistryObject<Item> cooking_oil = ITEMS.register("cooking_oil", () -> new BottleItem(foodItem(FoodValues.cooking_oil)));
     public static final RegistryObject<Item> lard = ITEMS.register("lard", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> tofu = ITEMS.register("tofu", () -> new Item(foodItem(FoodValues.tofu)));
     public static final RegistryObject<Item> minced_pork = ITEMS.register("minced_pork", () -> new Item(foodItem(FoodValues.minced_pork)));
