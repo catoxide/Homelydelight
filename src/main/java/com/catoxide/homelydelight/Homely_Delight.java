@@ -57,6 +57,8 @@ public class Homely_Delight {
     //    RegistryObject<Item> item = ITEMS.register(name, supplier);
     //    CREATIVE_TAB_ITEMS.add(block);
     //    return block;
+
+    //测试
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     public static final RegistryObject<Block> yatuifan = BLOCKS.register("yatuifan", () -> new Block(Properties.of().sound(SoundType.MUD).strength(1)));
@@ -90,8 +92,12 @@ public class Homely_Delight {
     public static final RegistryObject<Item> veggie_crabpaste = ITEMS.register("veggie_crabpaste", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Block> soybeans_crop = BLOCKS.register("soybeans", () -> new SoyBeanBlock(Properties.copy(Blocks.WHEAT)));
     public static final RegistryObject<Item> soybeans = ITEMS.register("soybeans", () -> new ItemNameBlockItem(soybeans_crop.get(), new Item.Properties()));
-    public static final RegistryObject<Block> meatball_block = BLOCKS.register("meatball_block", () -> new ToppingFeastBlock(Properties.copy(Blocks.CAKE), Homely_Delight.bouilli_with_rice, true));
-    public static final RegistryObject<Item> meatball_block_item = ITEMS.register("meatball_block", () -> new BlockItem(meatball_block.get(), new Item.Properties()));
+    public static final RegistryObject<Block> large_meatballs_block = BLOCKS.register("large_meatballs_block", () -> new ToppingFeastBlock(Properties.copy(Blocks.CAKE), Homely_Delight.bouilli_with_rice, true));
+    public static final RegistryObject<Item> large_meatballs_block_item = ITEMS.register("large_meatballs_block", () -> new BlockItem(large_meatballs_block.get(), new Item.Properties()));
+    public static final RegistryObject<Item> large_meatballs_with_rice = ITEMS.register("large_meatballs_with_rice", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> minced_pork = ITEMS.register("minced_pork", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> amylum = ITEMS.register("amylum", () -> new Item(new Item.Properties()));
+
     public Homely_Delight(FMLJavaModLoadingContext context) {
         IEventBus bus = context.getModEventBus();
         BLOCKS.register(bus);
@@ -104,15 +110,19 @@ public class Homely_Delight {
             .title(Component.translatable("Homely Delight"))
             .icon(()->new ItemStack(bouilli_block_item.get()))
             .displayItems((parameters,output)->{
-                    output.accept(bouilli_block_item.get());
-                    output.accept(bouilli_with_rice.get());
+                    output.accept(amylum.get());
                     output.accept(cooking_oil.get());
+                    output.accept(minced_pork.get());
                     output.accept(lard.get());
                     output.accept(tofu.get());
                     output.accept(veggie_crabpaste.get());
                     output.accept(soybeans.get());
                     output.accept(veggie_bisque.get());
-                    output.accept(meatball_block_item.get());
+                    output.accept(bouilli_block_item.get());
+                    output.accept(bouilli_with_rice.get());
+                    output.accept(large_meatballs_block_item.get());
+                    output.accept(large_meatballs_with_rice.get());
+
                     }
             )
             .build()
