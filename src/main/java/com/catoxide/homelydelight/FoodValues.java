@@ -11,10 +11,20 @@ public class FoodValues {
             .nutrition(2).saturationMod(0.4f).build();
     public static final FoodProperties minced_pork = (new FoodProperties.Builder())
             .nutrition(2).saturationMod(0.4f).build();
+    public static final FoodProperties cooked_minced_pork = (new FoodProperties.Builder())
+            .nutrition(2).saturationMod(0.4f).build();
+    public static final FoodProperties pork_ribs = (new FoodProperties.Builder())
+            .nutrition(2).saturationMod(0.4f).build();
+    public static final FoodProperties cooked_pork_ribs = (new FoodProperties.Builder())
+            .nutrition(2).saturationMod(0.4f).build();
     public static final FoodProperties veggie_bisque = (new FoodProperties.Builder())
             .nutrition(2).saturationMod(0.4f).build();
     public static final FoodProperties veggie_crabpaste = (new FoodProperties.Builder())
             .nutrition(2).saturationMod(0.4f).build();
     public static final FoodProperties cooking_oil = (new FoodProperties.Builder())
+            .nutrition(2).saturationMod(0.4f).build();
+    public static final FoodProperties soybean_milk = (new FoodProperties.Builder())
+            .nutrition(2).saturationMod(0.4f).build();
+    public static final FoodProperties soy_sauce = (new FoodProperties.Builder())
             .nutrition(2).saturationMod(0.4f).build();
 }

@@ -47,24 +47,11 @@ public class Homely_Delight {
 
     // Define mod id in a common place for everything to reference
     public static final String MODID = "homelydelight";
-    // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
-    //public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
-    //public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
 
-    //public static RegistryObject<Item> registerWithTab(String name, Supplier<Item> supplier) {
-    //    RegistryObject<Item> block = BLOCKS.register(name, supplier);
-    //    RegistryObject<Item> item = ITEMS.register(name, supplier);
-    //    CREATIVE_TAB_ITEMS.add(block);
-    //    return block;
 
     //测试
-    private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    public static final RegistryObject<Block> yatuifan = BLOCKS.register("yatuifan", () -> new Block(Properties.of().sound(SoundType.MUD).strength(1)));
+    //public static final RegistryObject<Block> yatuifan = BLOCKS.register("yatuifan", () -> new Block(Properties.of().sound(SoundType.MUD).strength(1)));
     //public static final RegistryObject<Item> yatuifan_item = ITEMS.register("yatuifan", () -> new BlockItem(yatuifan.get(), new Item.Properties().food(new FoodProperties.Builder()
     //        .alwaysEat().nutrition(6).saturationMod(2f).build())));
 
@@ -87,18 +74,25 @@ public class Homely_Delight {
         return new Item.Properties().food(food);
     }
     //物品注册
+    private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     //普通物品
     public static final RegistryObject<Item> amylum = ITEMS.register("amylum", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> cooking_oil = ITEMS.register("cooking_oil", () -> new BottleItem(foodItem(FoodValues.cooking_oil)));
+    public static final RegistryObject<Item> cooking_oil_bottle = ITEMS.register("cooking_oil_bottle", () -> new BottleItem(foodItem(FoodValues.cooking_oil)));
+    public static final RegistryObject<Item> soy_sauce_bottle = ITEMS.register("soy_sauce_bottle", () -> new BottleItem(foodItem(FoodValues.soy_sauce)));
+    public static final RegistryObject<Item> soybean_milk_bottle = ITEMS.register("soybean_milk_bottle", () -> new BottleItem(foodItem(FoodValues.soybean_milk)));
     public static final RegistryObject<Item> lard = ITEMS.register("lard", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> tofu = ITEMS.register("tofu", () -> new Item(foodItem(FoodValues.tofu)));
     public static final RegistryObject<Item> minced_pork = ITEMS.register("minced_pork", () -> new Item(foodItem(FoodValues.minced_pork)));
+    public static final RegistryObject<Item> cooked_minced_pork = ITEMS.register("cooked_minced_pork", () -> new Item(foodItem(FoodValues.cooked_minced_pork)));
+    public static final RegistryObject<Item> pork_ribs = ITEMS.register("pork_ribs", () -> new Item(foodItem(FoodValues.pork_ribs)));
+    public static final RegistryObject<Item> cooked_pork_ribs = ITEMS.register("cooked_pork_ribs", () -> new Item(foodItem(FoodValues.cooked_pork_ribs)));
     public static final RegistryObject<Block> soybeans_crop = BLOCKS.register("soybeans", () -> new SoyBeanBlock(Properties.copy(Blocks.WHEAT)));
     public static final RegistryObject<Item> soybeans = ITEMS.register("soybeans", () -> new ItemNameBlockItem(soybeans_crop.get(), new Item.Properties()));
     //碗装食物
     public static final RegistryObject<Item> veggie_bisque = ITEMS.register("veggie_bisque", () -> new BowlFoodItem(foodItem(FoodValues.veggie_bisque).stacksTo(16)));
     public static final RegistryObject<Item> veggie_crabpaste = ITEMS.register("veggie_crabpaste", () -> new BowlFoodItem(foodItem(FoodValues.veggie_crabpaste).stacksTo(16)));
-   //盘装食物
+    //盘装食物
     public static final RegistryObject<Block> bouilli_block = BLOCKS.register("bouilli_block", () -> new BouilliBlock(Properties.copy(Blocks.CAKE), Homely_Delight.bouilli_with_rice, true));
     public static final RegistryObject<Item> bouilli_block_item = ITEMS.register("bouilli_block", () -> new BlockItem(bouilli_block.get(), new Item.Properties()));
     public static final RegistryObject<Item> bouilli_with_rice = ITEMS.register("bouilli_with_rice", () -> new Item(foodItem(FoodValues.bouilli_with_rice)));
@@ -121,8 +115,13 @@ public class Homely_Delight {
             .icon(()->new ItemStack(bouilli_block_item.get()))
             .displayItems((parameters,output)->{
                     output.accept(amylum.get());
-                    output.accept(cooking_oil.get());
+                    output.accept(cooking_oil_bottle.get());
+                    output.accept(soybean_milk_bottle.get());
+                    output.accept(soy_sauce_bottle.get());
                     output.accept(minced_pork.get());
+                    output.accept(cooked_minced_pork.get());
+                    output.accept(pork_ribs.get());
+                    output.accept(cooked_pork_ribs.get());
                     output.accept(lard.get());
                     output.accept(tofu.get());
                     output.accept(veggie_crabpaste.get());

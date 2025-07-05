@@ -1,3 +1,13 @@
 {
-  "item.homelydelight.veggie_bisque": "Veggie bisque"
+  "item.homelydelight.veggie_bisque": "veggie bisque",
+  "item.homelydelight.veggie_crabpaste": "veggie crabpaste",
+  "item.homelydelight.amylum": "amylum",
+  "item.homelydelight.lard": "lard",
+  "item.homelydelight.tofu": "tofu",
+  "item.homelydelight.minced_pork": "minced_pork",
+  "item.homelydelight.soybeans": "soybeans",
+  "item.homelydelight.bouilli_block": "bouilli dish",
+  "item.homelydelight.bouilli_with_rice": "bouilli on rice",
+  "item.homelydelight.large_meatballs_block": "large meatballs",
+  "item.homelydelight.large_meatballs_with_rice": "large meatball on rice"
 }
