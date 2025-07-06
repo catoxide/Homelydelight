@@ -20,7 +20,7 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "block": "homelydelight:soybeans_crop",
+          "block": "homelydelight:soybeans",
           "condition": "minecraft:block_state_property",
           "properties": {
             "age": "7"
@@ -47,5 +47,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "homelydelight:blocks/soybeans_crop"
+  "random_sequence": "homelydelight:blocks/soybeans"
 }
