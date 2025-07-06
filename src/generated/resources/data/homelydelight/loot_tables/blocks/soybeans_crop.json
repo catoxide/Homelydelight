@@ -7,17 +7,17 @@
   ],
   "pools": [
     {
-      "bonus_rolls": 0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "name": "homelydelight:soybeans"
         }
       ],
-      "rolls": 1
+      "rolls": 1.0
     },
     {
-      "bonus_rolls": 0,
+      "bonus_rolls": 0.0,
       "conditions": [
         {
           "block": "homelydelight:soybeans_crop",
@@ -44,8 +44,8 @@
           "name": "homelydelight:soybeans"
         }
       ],
-      "rolls": 1
+      "rolls": 1.0
     }
   ],
-  "random_sequence": "homelydelight:soybeans"
+  "random_sequence": "homelydelight:blocks/soybeans_crop"
 }

@@ -1,24 +1,18 @@
 package com.catoxide.homelydelight.datagen;
 
 import com.catoxide.homelydelight.Homely_Delight;
-import jdk.jshell.ImportSnippet;
+import com.catoxide.homelydelight.resourcebuilder.CookingPotRecipeBuilder;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.PackOutput;
 import java.util.function.Consumer;
 
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import org.antlr.v4.codegen.target.CppTarget;
 import vectorwing.farmersdelight.client.recipebook.CookingPotRecipeBookTab;
-import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
-import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.tag.ForgeTags;
-import vectorwing.farmersdelight.data.builder.CookingPotRecipeBuilder;
-import vectorwing.farmersdelight.data.recipe.CookingRecipes;
 
-public class Recipe extends RecipeProvider {
-    public Recipe(PackOutput output) {
+public class Recipes extends RecipeProvider {
+    public Recipes(PackOutput output) {
         super(output);
     }
 
@@ -31,6 +25,14 @@ public class Recipe extends RecipeProvider {
                 .unlockedByAnyIngredient(Items.CARROT, Items.POTATO)
                 .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
                 .build(consumer);
-
+        CookingPotRecipeBuilder.cookingPotRecipe(Homely_Delight.bouilli_block_item.get(), 1, 200, 1.0F)
+                .addIngredient(Homely_Delight.lard.get())
+                .addIngredient(Homely_Delight.lard.get())
+                .addIngredient(Items.PORKCHOP)
+                .addIngredient(Items.SUGAR)
+                .addIngredient(Items.HONEY_BOTTLE)
+                .unlockedByAnyIngredient(Homely_Delight.lard.get())
+                .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
+                .build(consumer);
     }
 }

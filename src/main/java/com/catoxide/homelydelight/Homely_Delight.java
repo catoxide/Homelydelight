@@ -1,10 +1,12 @@
 package com.catoxide.homelydelight;
 import com.ibm.icu.impl.TextTrieMap;
 import com.mojang.logging.LogUtils;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.commands.EffectCommands;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.*;
@@ -16,12 +18,17 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.SoundType;
 
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootDataResolver;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -39,6 +46,7 @@ import vectorwing.farmersdelight.common.registry.ModItems;
 
 
 import java.sql.ParameterMetaData;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -74,8 +82,8 @@ public class Homely_Delight {
         return new Item.Properties().food(food);
     }
     //物品注册
-    private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     //普通物品
     public static final RegistryObject<Item> amylum = ITEMS.register("amylum", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> cooking_oil_bottle = ITEMS.register("cooking_oil_bottle", () -> new BottleItem(foodItem(FoodValues.cooking_oil)));
@@ -87,7 +95,7 @@ public class Homely_Delight {
     public static final RegistryObject<Item> cooked_minced_pork = ITEMS.register("cooked_minced_pork", () -> new Item(foodItem(FoodValues.cooked_minced_pork)));
     public static final RegistryObject<Item> pork_ribs = ITEMS.register("pork_ribs", () -> new Item(foodItem(FoodValues.pork_ribs)));
     public static final RegistryObject<Item> cooked_pork_ribs = ITEMS.register("cooked_pork_ribs", () -> new Item(foodItem(FoodValues.cooked_pork_ribs)));
-    public static final RegistryObject<Block> soybeans_crop = BLOCKS.register("soybeans", () -> new SoyBeanBlock(Properties.copy(Blocks.WHEAT)));
+    public static final RegistryObject<Block> soybeans_crop = BLOCKS.register("soybeans_crop", () -> new SoyBeanBlock(Block.Properties.copy(Blocks.WHEAT)));
     public static final RegistryObject<Item> soybeans = ITEMS.register("soybeans", () -> new ItemNameBlockItem(soybeans_crop.get(), new Item.Properties()));
     //碗装食物
     public static final RegistryObject<Item> veggie_bisque = ITEMS.register("veggie_bisque", () -> new BowlFoodItem(foodItem(FoodValues.veggie_bisque).stacksTo(16)));
@@ -107,6 +115,8 @@ public class Homely_Delight {
         BLOCKS.register(bus);
         ITEMS.register(bus);
         CREATIVE_MODE_TABS.register(bus);
+        MinecraftForge.EVENT_BUS.register(this);
+
     }
     //创造模式物品栏
     private static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB,MODID);
@@ -136,7 +146,12 @@ public class Homely_Delight {
             )
             .build()
     );
+
+    //public static final RegistryObject<Codec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIERS = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS,MODID);
+    //public static final RegistryObject
+
 }
+
 
 
 
