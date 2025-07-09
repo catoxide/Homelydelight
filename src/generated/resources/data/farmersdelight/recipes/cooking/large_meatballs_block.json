@@ -1,0 +1,23 @@
+{
+  "type": "farmersdelight:cooking",
+  "cookingtime": 400,
+  "experience": 4.0,
+  "ingredients": [
+    {
+      "item": "homelydelight:minced_pork"
+    },
+    {
+      "item": "homelydelight:minced_pork"
+    },
+    {
+      "item": "homelydelight:minced_pork"
+    },
+    {
+      "item": "homelydelight:soy_sauce_bottle"
+    }
+  ],
+  "recipe_book_tab": "meals",
+  "result": {
+    "item": "homelydelight:large_meatballs_block"
+  }
+}

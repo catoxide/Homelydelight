@@ -21,17 +21,24 @@ public class Config
 {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
-    private static final ForgeConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
-            .comment("Whether to log the dirt block on common setup")
-            .define("logDirtBlock", true);
+    public static ForgeConfigSpec.BooleanValue generate_wild_soybeans;
+    public static ForgeConfigSpec.IntValue chance_wild_soybeans;
+    //		COMMON_BUILDER.comment("Wild Cabbage generation").push("wild_cabbages");
+    //CHANCE_WILD_CABBAGES = COMMON_BUILDER.comment("Chance of generating clusters. Smaller value = more frequent.")
+    //    .defineInRange("chance", 30, 0, Integer.MAX_VALUE);
+	//	COMMON_BUILDER.pop();
 
-    private static final ForgeConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-            .comment("A magic number")
-            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+    //private static final ForgeConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
+     //       .comment("Whether to log the dirt block on common setup")
+     //       .define("logDirtBlock", true);
 
-    public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
-            .comment("What you want the introduction message to be for the magic number")
-            .define("magicNumberIntroduction", "The magic number is... ");
+    //private static final ForgeConfigSpec.IntValue MAGIC_NUMBER = BUILDER
+      //      .comment("A magic number")
+      //      .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+
+    //public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
+    //        .comment("What you want the introduction message to be for the magic number")
+    //        .define("magicNumberIntroduction", "The magic number is... ");
 
     // a list of strings that are treated as resource locations for items
     //private static final ForgeConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER

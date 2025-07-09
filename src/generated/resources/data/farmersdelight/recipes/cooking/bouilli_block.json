@@ -1,7 +1,7 @@
 {
   "type": "farmersdelight:cooking",
-  "cookingtime": 200,
-  "experience": 1.0,
+  "cookingtime": 400,
+  "experience": 4.0,
   "ingredients": [
     {
       "item": "homelydelight:lard"

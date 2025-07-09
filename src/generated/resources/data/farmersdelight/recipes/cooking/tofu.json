@@ -1,0 +1,18 @@
+{
+  "type": "farmersdelight:cooking",
+  "cookingtime": 400,
+  "experience": 2.0,
+  "ingredients": [
+    {
+      "item": "homelydelight:soybean_milk_bottle"
+    },
+    {
+      "item": "homelydelight:soybean_milk_bottle"
+    }
+  ],
+  "recipe_book_tab": "misc",
+  "result": {
+    "count": 3,
+    "item": "homelydelight:tofu"
+  }
+}

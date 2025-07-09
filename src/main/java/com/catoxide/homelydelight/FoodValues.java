@@ -12,6 +12,9 @@ public class FoodValues {
     public static final FoodProperties large_meatballs_with_rice = (new FoodProperties.Builder())
             .nutrition(11).saturationMod(0.8f)
             .effect(new MobEffectInstance(ModEffects.COMFORT.get(), 200, 0), 1.0F).build();
+    public static final FoodProperties pork_with_preserved_vegetable = (new FoodProperties.Builder())
+            .nutrition(11).saturationMod(0.8f)
+            .effect(new MobEffectInstance(ModEffects.COMFORT.get(), 200, 0), 1.0F).build();
     public static final FoodProperties tofu = (new FoodProperties.Builder())
             .nutrition(5).saturationMod(0.8f).build();
     public static final FoodProperties minced_pork = (new FoodProperties.Builder())
