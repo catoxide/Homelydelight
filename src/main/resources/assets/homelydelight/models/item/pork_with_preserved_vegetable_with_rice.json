@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "homelydelight:item/pork_with_preserved_vegetable_with_rice"
+  }
+}
