@@ -1,0 +1,39 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"1": "homelydelight:tray_bottom",
+		"2": "homelydelight:block/tray_top_pork_with_preserved_vegetable_leftover",
+		"particle": "homelydelight:block/tray_top_pork_with_preserved_vegetable_leftover"
+	},
+	"elements": [
+		{
+			"name": "tray",
+			"from": [1, 0, 1],
+			"to": [15, 2, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [1, 11, 15, 13], "texture": "#1"},
+				"east": {"uv": [1, 11, 15, 13], "texture": "#1"},
+				"south": {"uv": [1, 11, 15, 13], "texture": "#1"},
+				"west": {"uv": [1, 11, 15, 13], "texture": "#1"},
+				"up": {"uv": [15, 15, 1, 1], "texture": "#2"},
+				"down": {"uv": [15, 1, 1, 15], "texture": "#1"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "tray",
+			"origin": [8, 1, 8],
+			"color": 0,
+			"children": [0]
+		},
+		{
+			"name": "meat",
+			"origin": [8, 1, 8],
+			"color": 0,
+			"children": []
+		}
+	]
+}
