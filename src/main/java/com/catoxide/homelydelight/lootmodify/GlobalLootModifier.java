@@ -27,7 +27,7 @@ public class GlobalLootModifier extends GlobalLootModifierProvider {
         add("piglootmodifier",new piglootmodifier(new LootItemCondition[]{
         //        LootItemEntityPropertyCondition.entityPresent(LootContext.EntityTarget.This).build(),
                 MatchTool.toolMatches(ItemPredicate.Builder.item().of(ForgeTags.TOOLS_KNIVES)).build(),
-                LootItemEntityPropertyCondition.hasProperties()
+                LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.getByName(String.valueOf(EntityType.PIG)),EntityPredicate.Builder.entity()).build()
         }, 2));
 }
 
