@@ -108,7 +108,7 @@ public class Homely_Delight {
     public static final RegistryObject<Block> wild_soilbeans_crop = BLOCKS.register("wild_soilbeans", () -> new WildCropBlock(MobEffects.LUCK, 2, Block.Properties.copy(Blocks.TALL_GRASS)));
     public static final RegistryObject<Item> wild_soilbeans_crop_item = ITEMS.register("wild_soilbeans_crop_item", () -> new BlockItem(wild_soilbeans_crop.get(),new Item.Properties()));
     public static final RegistryObject<Block> soy_sauce_fermentation_barrel = BLOCKS.register("soy_sauce_fermentation_barrel",() -> new SoysaucefermentationbarrelBlock(Block.Properties.copy(Blocks.OAK_PLANKS)));
-    public static final RegistryObject<Item> soy_sauce_fermentation_barrel_item = ITEMS.register("oy_sauce_fermentation_barrel", () -> new BlockItem(soy_sauce_fermentation_barrel.get(),new Item.Properties()));
+    public static final RegistryObject<Item> soy_sauce_fermentation_barrel_item = ITEMS.register("soy_sauce_fermentation_barrel", () -> new BlockItem(soy_sauce_fermentation_barrel.get(),new Item.Properties()));
     public static final RegistryObject<Block> soy_sauce_barrel = BLOCKS.register("soy_sauce_barrel",() -> new Block(Block.Properties.copy(Blocks.OAK_PLANKS)));
     public static final RegistryObject<Item> soy_sauce_barrel_item = ITEMS.register("soy_sauce_barrel", () -> new BlockItem(soy_sauce_barrel.get(),new Item.Properties()));
     //碗装食物

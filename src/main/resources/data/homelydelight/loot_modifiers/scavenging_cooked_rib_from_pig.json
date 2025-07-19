@@ -30,9 +30,10 @@
     },
     {
       "condition": "minecraft:random_chance_with_looting",
-      "chance": 0.5,
-      "looting_multiplier": 0.1
+      "chance": 1,
+      "looting_multiplier": 0.3
     }
   ],
-  "item": "homelydelight:cooked_pork_ribs"
+  "item": "homelydelight:cooked_pork_ribs",
+  "count": 2
 }
