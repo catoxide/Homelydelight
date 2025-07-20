@@ -1,59 +1,35 @@
 package com.catoxide.homelydelight;
-import com.catoxide.homelydelight.lootmodify.GlobalLootModifier;
 import com.catoxide.homelydelight.lootmodify.piglootmodifier;
-import com.ibm.icu.impl.TextTrieMap;
-import com.mojang.datafixers.types.templates.Tag;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.commands.EffectCommands;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.SoundType;
 
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootDataResolver;
-import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.checkerframework.checker.units.qual.C;
 import org.slf4j.Logger;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-import vectorwing.farmersdelight.client.gui.NourishmentHungerOverlay;
-import vectorwing.farmersdelight.common.block.FeastBlock;
 import vectorwing.farmersdelight.common.block.WildCropBlock;
-import vectorwing.farmersdelight.common.registry.ModItems;
 
 
-import java.sql.ParameterMetaData;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -114,6 +90,8 @@ public class Homely_Delight {
     //碗装食物
     public static final RegistryObject<Item> veggie_bisque = ITEMS.register("veggie_bisque", () -> new BowlFoodItem(foodItem(FoodValues.veggie_bisque).stacksTo(16)));
     public static final RegistryObject<Item> veggie_crabpaste = ITEMS.register("veggie_crabpaste", () -> new BowlFoodItem(foodItem(FoodValues.veggie_crabpaste).stacksTo(16)));
+    public static final RegistryObject<Item> mashed_potato = ITEMS.register("mashed_potato", () -> new BowlFoodItem(foodItem(FoodValues.mashed_potato).stacksTo(16)));
+
     //盘装食物
     public static final RegistryObject<Block> bouilli_block = BLOCKS.register("bouilli_block", () -> new BouilliBlock(Properties.copy(Blocks.CAKE), Homely_Delight.bouilli_with_rice, true));
     public static final RegistryObject<Item> bouilli_block_item = ITEMS.register("bouilli_block", () -> new BlockItem(bouilli_block.get(), new Item.Properties()));

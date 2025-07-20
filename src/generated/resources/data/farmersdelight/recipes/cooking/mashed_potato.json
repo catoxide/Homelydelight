@@ -1,0 +1,21 @@
+{
+  "type": "farmersdelight:cooking",
+  "cookingtime": 400,
+  "experience": 2.0,
+  "ingredients": [
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "homelydelight:cooking_oil_bottle"
+    }
+  ],
+  "recipe_book_tab": "meals",
+  "result": {
+    "count": 3,
+    "item": "homelydelight:mashed_potato"
+  }
+}
