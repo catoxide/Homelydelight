@@ -1,5 +1,8 @@
 package com.catoxide.homelydelight;
+import com.catoxide.homelydelight.lootmodify.GlobalLootModifier;
+import com.catoxide.homelydelight.lootmodify.piglootmodifier;
 import com.ibm.icu.impl.TextTrieMap;
+import com.mojang.datafixers.types.templates.Tag;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
@@ -10,6 +13,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.commands.EffectCommands;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -87,6 +91,7 @@ public class Homely_Delight {
     //物品注册
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+    public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIER = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS,MODID);
     //普通物品
     public static final RegistryObject<Item> amylum = ITEMS.register("amylum", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> cooking_oil_bottle = ITEMS.register("cooking_oil_bottle", () -> new BottleItem(foodItem(FoodValues.cooking_oil)));
@@ -103,7 +108,7 @@ public class Homely_Delight {
     public static final RegistryObject<Block> wild_soilbeans_crop = BLOCKS.register("wild_soilbeans", () -> new WildCropBlock(MobEffects.LUCK, 2, Block.Properties.copy(Blocks.TALL_GRASS)));
     public static final RegistryObject<Item> wild_soilbeans_crop_item = ITEMS.register("wild_soilbeans_crop_item", () -> new BlockItem(wild_soilbeans_crop.get(),new Item.Properties()));
     public static final RegistryObject<Block> soy_sauce_fermentation_barrel = BLOCKS.register("soy_sauce_fermentation_barrel",() -> new SoysaucefermentationbarrelBlock(Block.Properties.copy(Blocks.OAK_PLANKS)));
-    public static final RegistryObject<Item> soy_sauce_fermentation_barrel_item = ITEMS.register("oy_sauce_fermentation_barrel", () -> new BlockItem(soy_sauce_fermentation_barrel.get(),new Item.Properties()));
+    public static final RegistryObject<Item> soy_sauce_fermentation_barrel_item = ITEMS.register("soy_sauce_fermentation_barrel", () -> new BlockItem(soy_sauce_fermentation_barrel.get(),new Item.Properties()));
     public static final RegistryObject<Block> soy_sauce_barrel = BLOCKS.register("soy_sauce_barrel",() -> new Block(Block.Properties.copy(Blocks.OAK_PLANKS)));
     public static final RegistryObject<Item> soy_sauce_barrel_item = ITEMS.register("soy_sauce_barrel", () -> new BlockItem(soy_sauce_barrel.get(),new Item.Properties()));
     //碗装食物
@@ -127,6 +132,7 @@ public class Homely_Delight {
         BLOCKS.register(bus);
         ITEMS.register(bus);
         CREATIVE_MODE_TABS.register(bus);
+        GLOBAL_LOOT_MODIFIER.register(bus);
         MinecraftForge.EVENT_BUS.register(this);
 
     }
@@ -162,8 +168,8 @@ public class Homely_Delight {
             .build()
     );
 
-    //public static final RegistryObject<Codec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIERS = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS,MODID);
-    //public static final RegistryObject
+    public static final RegistryObject<Codec<piglootmodifier>> piglootmodifier = GLOBAL_LOOT_MODIFIER.register("lard_by_pig", com.catoxide.homelydelight.lootmodify.piglootmodifier.CODEC);
+
 
 }
 

@@ -1,5 +1,6 @@
 package com.catoxide.homelydelight.datagen;
 
+import com.catoxide.homelydelight.lootmodify.GlobalLootModifier;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -26,6 +27,6 @@ import static com.catoxide.homelydelight.Homely_Delight.MODID;
             generator.addProvider(event.includeServer(),new Recipes(packoutput));
             generator.addProvider(event.includeServer(), new LootTableProvider(packoutput, Collections.emptySet(),
             List.of(new LootTableProvider.SubProviderEntry(Loottables::new, LootContextParamSets.BLOCK))));
-
+            generator.addProvider(event.includeServer(),new GlobalLootModifier(packoutput,MODID));
         }
 }
