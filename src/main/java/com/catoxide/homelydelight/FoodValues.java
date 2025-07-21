@@ -29,6 +29,8 @@ public class FoodValues {
             .nutrition(12).saturationMod(0.4f).build();
     public static final FoodProperties veggie_crabpaste = (new FoodProperties.Builder())
             .nutrition(12).saturationMod(0.6f).build();
+    public static final FoodProperties mashed_potato = (new FoodProperties.Builder())
+            .nutrition(6).saturationMod(0.8f).build();
     public static final FoodProperties cooking_oil = (new FoodProperties.Builder())
             .nutrition(1).saturationMod(0.1f)
             .effect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0), 1.0F)

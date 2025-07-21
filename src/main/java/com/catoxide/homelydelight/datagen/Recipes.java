@@ -62,6 +62,13 @@ public class Recipes extends RecipeProvider {
                 .unlockedByItems("has_soybean_milk",Homely_Delight.soybean_milk_bottle.get())
                 .setRecipeBookTab(CookingPotRecipeBookTab.MISC)
                 .build(consumer);
+        CookingPotRecipeBuilder.cookingPotRecipe(Homely_Delight.mashed_potato.get(), 3, 400, 2.0F)
+                .addIngredient(Items.POTATO)
+                .addIngredient(Items.POTATO)
+                .addIngredient(Homely_Delight.cooking_oil_bottle.get())
+                .unlockedByItems("has_potato",Items.POTATO)
+                .setRecipeBookTab(CookingPotRecipeBookTab.MEALS)
+                .build(consumer);
     }
     private static void cuttingAnimalItems(Consumer<FinishedRecipe> consumer) {
         CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.of(ModItems.BACON.get()), Ingredient.of(ForgeTags.TOOLS_KNIVES), Homely_Delight.minced_pork.get(), 1)
