@@ -1,10 +1,12 @@
 package com.catoxide.homelydelight;
+import com.catoxide.homelydelight.fluid.CookingOil;
 import com.catoxide.homelydelight.lootmodify.piglootmodifier;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
@@ -12,14 +14,20 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.level.block.Blocks;
 
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -67,7 +75,9 @@ public class Homely_Delight {
     //物品注册
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, MODID);
     public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIER = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS,MODID);
+
     //普通物品
     public static final RegistryObject<Item> amylum = ITEMS.register("amylum", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> cooking_oil_bottle = ITEMS.register("cooking_oil_bottle", () -> new BottleItem(foodItem(FoodValues.cooking_oil)));
@@ -79,14 +89,15 @@ public class Homely_Delight {
     public static final RegistryObject<Item> cooked_minced_pork = ITEMS.register("cooked_minced_pork", () -> new Item(foodItem(FoodValues.cooked_minced_pork)));
     public static final RegistryObject<Item> pork_ribs = ITEMS.register("pork_ribs", () -> new Item(foodItem(FoodValues.pork_ribs)));
     public static final RegistryObject<Item> cooked_pork_ribs = ITEMS.register("cooked_pork_ribs", () -> new Item(foodItem(FoodValues.cooked_pork_ribs)));
-    public static final RegistryObject<Block> soybeans_crop = BLOCKS.register("soybeans", () -> new SoyBeanBlock(Block.Properties.copy(Blocks.WHEAT)));
+    public static final RegistryObject<Block> soybeans_crop = BLOCKS.register("soybeans", () -> new SoyBeanBlock(Properties.copy(Blocks.WHEAT)));
     public static final RegistryObject<Item> soybeans = ITEMS.register("soybeans", () -> new ItemNameBlockItem(soybeans_crop.get(), new Item.Properties()));
-    public static final RegistryObject<Block> wild_soilbeans_crop = BLOCKS.register("wild_soilbeans", () -> new WildCropBlock(MobEffects.LUCK, 2, Block.Properties.copy(Blocks.TALL_GRASS)));
+    public static final RegistryObject<Block> wild_soilbeans_crop = BLOCKS.register("wild_soilbeans", () -> new WildCropBlock(MobEffects.LUCK, 2, Properties.copy(Blocks.TALL_GRASS)));
     public static final RegistryObject<Item> wild_soilbeans_crop_item = ITEMS.register("wild_soilbeans_crop_item", () -> new BlockItem(wild_soilbeans_crop.get(),new Item.Properties()));
-    public static final RegistryObject<Block> soy_sauce_fermentation_barrel = BLOCKS.register("soy_sauce_fermentation_barrel",() -> new SoysaucefermentationbarrelBlock(Block.Properties.copy(Blocks.OAK_PLANKS)));
+    public static final RegistryObject<Block> soy_sauce_fermentation_barrel = BLOCKS.register("soy_sauce_fermentation_barrel",() -> new SoysaucefermentationbarrelBlock(Properties.copy(Blocks.OAK_PLANKS)));
     public static final RegistryObject<Item> soy_sauce_fermentation_barrel_item = ITEMS.register("soy_sauce_fermentation_barrel", () -> new BlockItem(soy_sauce_fermentation_barrel.get(),new Item.Properties()));
-    public static final RegistryObject<Block> soy_sauce_barrel = BLOCKS.register("soy_sauce_barrel",() -> new Block(Block.Properties.copy(Blocks.OAK_PLANKS)));
+    public static final RegistryObject<Block> soy_sauce_barrel = BLOCKS.register("soy_sauce_barrel",() -> new Block(Properties.copy(Blocks.OAK_PLANKS)));
     public static final RegistryObject<Item> soy_sauce_barrel_item = ITEMS.register("soy_sauce_barrel", () -> new BlockItem(soy_sauce_barrel.get(),new Item.Properties()));
+
     //碗装食物
     public static final RegistryObject<Item> veggie_bisque = ITEMS.register("veggie_bisque", () -> new BowlFoodItem(foodItem(FoodValues.veggie_bisque).stacksTo(16)));
     public static final RegistryObject<Item> veggie_crabpaste = ITEMS.register("veggie_crabpaste", () -> new BowlFoodItem(foodItem(FoodValues.veggie_crabpaste).stacksTo(16)));
@@ -105,6 +116,25 @@ public class Homely_Delight {
     public static final RegistryObject<Item> pork_with_preserved_vegetable_block_item = ITEMS.register("pork_with_preserved_vegetable", () -> new BlockItem(pork_with_preserved_vegetable_block.get(), new Item.Properties()));
     public static final RegistryObject<Item> pork_with_preserved_vegetable_with_rice = ITEMS.register("pork_with_preserved_vegetable_with_rice", () -> new Item(foodItem(FoodValues.pork_with_preserved_vegetable)));
 
+    //流体
+    public static final RegistryObject<Item> COOKING_OIL_BUCKET = ITEMS.register("cooking_oil_bucket",
+                    () -> new BucketItem(CookingOil.COOKING_OIL.get(),   // ① 提供流体
+                            new Item.Properties()                // ② 物品属性
+                                    .stacksTo(1)                 // 桶只能堆叠 1 个
+                                    .craftRemainder(Items.BUCKET)));// 用完返还桶
+    public static final RegistryObject<LiquidBlock> COOKING_OIL_BLOCK =
+            BLOCKS.register("cooking_oil_block",
+                    () -> new LiquidBlock(
+                            CookingOil.COOKING_OIL.get(),               // ← 必须传 Source 流体
+                            BlockBehaviour.Properties.of()
+                                    .noCollission()
+                                    .strength(100.0F)            // 流体硬度
+                                    .noLootTable()               // 不掉落
+                                    .replaceable()
+                    ));
+
+
+
     public Homely_Delight(FMLJavaModLoadingContext context) {
         IEventBus bus = context.getModEventBus();
         BLOCKS.register(bus);
@@ -112,7 +142,8 @@ public class Homely_Delight {
         CREATIVE_MODE_TABS.register(bus);
         GLOBAL_LOOT_MODIFIER.register(bus);
         MinecraftForge.EVENT_BUS.register(this);
-
+        CookingOil.FLUID_TYPES.register(bus);
+        CookingOil.FLUIDS.register(bus);
     }
     //创造模式物品栏
     private static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB,MODID);
@@ -122,6 +153,7 @@ public class Homely_Delight {
             .displayItems((parameters,output)->{
                     output.accept(amylum.get());
                     output.accept(cooking_oil_bottle.get());
+                    //output.accept(cooking_oil_bucket.get());
                     output.accept(soybean_milk_bottle.get());
                     output.accept(soy_sauce_bottle.get());
                     output.accept(minced_pork.get());
@@ -146,7 +178,7 @@ public class Homely_Delight {
             .build()
     );
 
-    public static final RegistryObject<Codec<piglootmodifier>> piglootmodifier = GLOBAL_LOOT_MODIFIER.register("lard_by_pig", com.catoxide.homelydelight.lootmodify.piglootmodifier.CODEC);
+    //public static final RegistryObject<Codec<piglootmodifier>> piglootmodifier = GLOBAL_LOOT_MODIFIER.register("lard_by_pig", com.catoxide.homelydelight.lootmodify.piglootmodifier.CODEC);
 
 
 }
